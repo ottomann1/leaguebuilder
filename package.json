@@ -5,20 +5,27 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.32.1",
     "league-connect": "^6.0.0-rc13",
     "next": "14.2.5",
+    "postgres": "^3.4.4",
     "react": "^18",
     "react-dom": "^18",
     "twisted": "^1.61.2"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/pg": "^8.11.6",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "drizzle-kit": "^0.24.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",

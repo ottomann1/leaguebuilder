@@ -1,3 +1,5 @@
+"use server";
+
 import {
   authenticate,
   createHttp2Request,
@@ -74,7 +76,6 @@ export async function getCurrentState(): Promise<string | null> {
     return null;
   }
 }
-
 // Function to get data from the current match
 export async function getMatchData(): Promise<any> {
   if ((await getCurrentState()) !== "InProgress") {
@@ -103,6 +104,40 @@ export async function getMatchData(): Promise<any> {
     }
   } catch (error) {
     console.error("Error retrieving match data:", error);
+    return null;
+  }
+}
+
+export async function getCurrentMatchInfo() {
+  try {
+    // Authenticate and get credentials
+    const credentials = await authenticate();
+
+    // Create an HTTP/2 session with the client
+    const session = await createHttpSession(credentials);
+
+    try {
+      // Send a GET request to the Live Client Data API to get all game data
+      const response = await createHttp2Request(
+        {
+          method: "GET",
+          url: "/liveclientdata/allgamedata",
+        },
+        session,
+        credentials,
+      );
+
+      // Parse the response JSON
+      const matchData = await response.json();
+
+      console.log("Current Match Info:", matchData);
+
+      return matchData;
+    } finally {
+      session.close(); // Always close the session
+    }
+  } catch (error) {
+    console.error("Error fetching current match info:", error);
     return null;
   }
 }

@@ -21,9 +21,9 @@ export async function startWebSocket() {
           return;
         }
 
-        console.log("Raw data received:", rawData); // Debug log
-
         const event = JSON.parse(rawData);
+
+        console.log(event);
 
         if (event.uri === "/lol-live-client-data/v1/all-gamedata") {
           handleGameData(event.data);

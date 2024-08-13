@@ -1,15 +1,18 @@
 import { getCurrentState, getMatchData, getSummoner,  loginCheck } from "@/api/leagueconnect/api";
-import { startWebSocket } from "@/api/leagueconnect/websocket";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const summoner = await getSummoner()
-  loginCheck()
-  const gameState = await getCurrentState()
-  console.log(gameState)
-  const data = await getMatchData()
-  console.log(data)
-  startWebSocket()
+  if(summoner){
+    const currentState = await getCurrentState()
+    if(!currentState){
+      throw new Error("this is impossible")
+    }
+    if(currentState==="InProgress"){
+      return redirect("/ingame")
+    }
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {summoner ? (
