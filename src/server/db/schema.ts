@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import {
   serial,
   text,
@@ -6,16 +6,34 @@ import {
   numeric,
   pgTable,
   primaryKey,
+  jsonb,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 // Define the items table schema
 export const items = pgTable("items", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey(), // The item ID
   name: text("name").notNull(),
-  cost: integer("cost").notNull(),
-  goldEfficiency: numeric("gold_efficiency").notNull(),
+  description: text("description"),
+  plaintext: text("plaintext"),
+  base_cost: integer("base_cost").notNull(), // Base cost of the item
+  total_cost: integer("total_cost").notNull(), // Total cost of the item
+  sell_cost: integer("sell_cost").notNull(), // Sell cost of the item
+  purchasable: boolean("purchasable").notNull(), // Whether the item is purchasable
+  tags: text("tags").array().notNull(), // Array of tags (e.g., Damage, CriticalStrike)
+  maps: jsonb("maps").notNull(), // JSONB field to store the maps info
+  stats: jsonb("stats").notNull(), // JSONB field to store the stats
+  depth: integer("depth").notNull(), // Depth of the item in the item tree
+  from_items: integer("from_items").array(), // IDs of the component items
+  image_full: text("image_full").notNull(), // Image file name (e.g., "3508.png")
+  image_sprite: text("image_sprite").notNull(), // Image sprite name (e.g., "item1.png")
+  image_group: text("image_group").notNull(), // Image group (e.g., "item")
+  image_x: integer("image_x").notNull(), // X coordinate in the sprite
+  image_y: integer("image_y").notNull(), // Y coordinate in the sprite
+  image_w: integer("image_w").notNull(), // Width of the image in the sprite
+  image_h: integer("image_h").notNull(), // Height of the image in the sprite
 });
-
+export type ItemSelect = InferSelectModel<typeof items>;
 // Define the champions table schema
 export const champions = pgTable("champions", {
   id: serial("id").primaryKey(),

@@ -1,3 +1,4 @@
+import { getAllChampions, getAllItems } from "@/api/datadragon/api";
 import { getCurrentState, getMatchData, getSummoner,  loginCheck } from "@/api/leagueconnect/api";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -13,6 +14,10 @@ export default async function Home() {
       return redirect("/ingame")
     }
   }
+  const champions = await getAllChampions();
+  const items = await getAllItems();
+  console.log(champions);
+  console.log(items)
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {summoner ? (

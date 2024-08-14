@@ -69,6 +69,60 @@ type ChampionStats = {
   tenacity: number;
 };
 
+type DDChampionStats = {
+  hp: number;
+  hpperlevel: number;
+  mp: number;
+  mpperlevel: number;
+  movespeed: number;
+  armor: number;
+  armorperlevel: number;
+  spellblock: number;
+  spellblockperlevel: number;
+  attackrange: number;
+  hpregen: number;
+  hpregenperlevel: number;
+  mpregen: number;
+  mpregenperlevel: number;
+  crit: number;
+  critperlevel: number;
+  attackdamage: number;
+  attackdamageperlevel: number;
+  attackspeedperlevel: number;
+  attackspeed: number;
+};
+
+type DDChampionInfo = {
+  attack: number;
+  defense: number;
+  magic: number;
+  difficulty: number;
+};
+
+type DDChampionImage = {
+  full: string;
+  sprite: string;
+  group: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
+type DDChampion = {
+  version: string;
+  id: string;
+  key: string;
+  name: string;
+  title: string;
+  blurb: string;
+  info: DDChampionInfo;
+  image: DDChampionImage;
+  tags: string[];
+  partype: string;
+  stats: DDChampionStats;
+};
+
 // Represents a single rune
 type Rune = {
   id: number;
@@ -90,6 +144,44 @@ type FullRunes = {
 type Item = {
   itemID: number;
   count: number;
+};
+
+type DDItem = {
+  id: number;
+  name: string;
+  description: string;
+  colloq: string;
+  plaintext: string;
+  image: {
+    full: string;
+    sprite: string;
+    group: string;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  };
+  gold: {
+    base: number;
+    purchasable: boolean;
+    total: number;
+    sell: number;
+  };
+  tags: string[];
+  maps: {
+    [key: string]: boolean;
+  };
+  stats: {
+    FlatHPPoolMod?: number;
+    FlatPhysicalDamageMod?: number;
+    FlatArmorMod?: number;
+    PercentAttackSpeedMod?: number;
+    PercentLifeStealMod?: number;
+    [key: string]: number | undefined; // Accommodates any additional stats
+  };
+  effect?: {
+    [key: string]: string; // For effects like "Effect1Amount", "Effect2Amount", etc.
+  };
 };
 
 // Represents the active player
