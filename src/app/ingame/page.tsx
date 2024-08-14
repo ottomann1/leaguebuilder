@@ -10,10 +10,16 @@ type DragonData = {
 
 
 export default async function ingame(){
+  const gameData: MatchData = await getAllGameData();
+  const playerData: ActivePlayer = await getActivePlayerData();
+  const playerList: Player[] = await getPlayerListData();
+  const eventData: GameEvent[] = await getEventData();
   const summoner = await getSummoner();
   if (!summoner) {
     redirect("/");
   }
+
+
 
   // const allItems = await getAllItems();
   // const allChampions = await getAllChampions();
@@ -22,13 +28,11 @@ export default async function ingame(){
   //   throw new Error("unable to retrieve items or champions from data dragon")
   // }
 
-  const gameData: MatchData = await getAllGameData();
-  const playerData: ActivePlayer = await getActivePlayerData();
-  const playerList: Player[] = await getPlayerListData();
-  const eventData: GameEvent[] = await getEventData();
+
   return (
     <main style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
       <h1>You are now ingame, {summoner.gameName}</h1>
+      
       <section>
         <AllPlayers playerList={playerList} eventData={eventData} />
       </section>

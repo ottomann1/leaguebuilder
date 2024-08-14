@@ -34,7 +34,8 @@ export async function getAllItems(): Promise<DDItem[] | null> {
     const items: DDItem[] = Object.entries(itemsData).map(([id, item]) => ({
       id: parseInt(id), // Convert the string ID to a number
       ...item, // Spread the rest of the item properties
-    }));
+    })); 
+    console.log(items)
 
     // Return the items data
     return items;

@@ -1,9 +1,11 @@
 "use client"
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useStaticData } from "@/context/StaticDataContext";
 import Image from "next/image";
 import { calculateTotalGoldSpent } from "@/utils/utils";
+import { revalidatePath } from "next/cache";
+import { revalidate } from "@/actions/actions";
 
 interface AllPlayersProps {
   playerList: Player[];
@@ -15,6 +17,10 @@ export function AllPlayers({ playerList, eventData }:AllPlayersProps){
     const champions = staticData.champions;
     const items = staticData.items;
 
+    async function handleClick(){
+        await revalidate()
+    }
+
     if (!champions || !items) {
       return <div>Loading...</div>;
     }
@@ -25,6 +31,7 @@ export function AllPlayers({ playerList, eventData }:AllPlayersProps){
   return (
     <section style={{ marginTop: "20px" }}>
       <h2>Player List</h2>
+      <button onClick={handleClick}>revalidate</button>
       {playerList.map((player: Player) => {
         const champion = champions?.find(
           (champ) => champ.id === player.championName
