@@ -41,15 +41,8 @@ export default async function ingame() {
 
   return (
     <main className="mx-auto flex flex-col drop-shadow-2xl">
-      <h1>You are now ingame, {summoner.gameName}</h1>
-      <section className="mb-4">
-        <h2 className="text-xl font-semibold">Gamemode: {gameData.gameData.gameMode} {gameData.gameData.mapName}</h2>
-
         <div className="flex justify-between items-start">
-          {/* Game Time */}
-          <div className="flex-1 mr-4">
-            <h2 className="text-xl font-semibold">Current Game Time: {formatTime(gameData.gameData.gameTime)}</h2>
-          </div>
+
           <section>
           {!viableItems ? (
             <div className="flex justify-center items-center h-64">
@@ -58,6 +51,7 @@ export default async function ingame() {
           ) : (
             <ItemsCard
               championName={championName}
+              summonerName={summoner.gameName}
               position={position}
               gameTime={gameData.gameData.gameTime}
               eventData={eventData}
@@ -66,19 +60,19 @@ export default async function ingame() {
             />
           )}
         </section>
-
-          {/* Timeline */}
-          <div className="flex-none">
+          
+          <section>
+            <div className="flex">
             <Timeline eventData={eventData} />
           </div>
+          </section>
+          
+
         </div>
-      </section>
 
       <section>
         <PlayerCard playerList={playerList} eventData={eventData} gameTime={gameData.gameData.gameTime} />
       </section>
-
-
     </main>
   );
 }

@@ -14,9 +14,9 @@ export function Timeline({ eventData }: TimelineProps) {
     return (
         <>
 
-          <div className="overflow-y-auto max-h-96 p-4 bg-base-200 rounded-lg">
+          <div className="overflow-y-auto p-4 bg-base-200  rounded-lg">
           <h2 className="card-title text-center">Event Timeline</h2>
-            <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+            <ul className="timeline timeline-snap-icon max-md:timeline-compact w-[350px] timeline-vertical">
               {filteredEvents.map((event) => (
                 <li key={event.EventID}>
                   <div className="timeline-middle">
