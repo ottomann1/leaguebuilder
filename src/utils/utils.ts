@@ -1,22 +1,21 @@
-const itemCosts: { [key: number]: number } = {
-  1001: 300, // Example item: Boots
-  2003: 50, // Example item: Health Potion
-  // Add more item costs here based on item IDs
-};
 
-export function calculateTotalGoldSpent(player: Player): number {
+export function calculateTotalGoldSpent(player: Player, items: DDItem[]): number {
   let totalGoldSpent = 0;
-
   player.items.forEach((item: Item) => {
-    const cost = itemCosts[item.itemID] || 0;
+    const itemData = items.find((i) => i.id === item.itemID);
+    const cost = itemData ? itemData.gold.total : 0;
     totalGoldSpent += cost * item.count;
   });
 
   return totalGoldSpent;
 }
 
-export function displayPlayerItems(player: Player): string {
+export function displayPlayerItems(player: Player, items: DDItem[]): string {
   return player.items
-    .map((item) => `Item ID: ${item.itemID}, Count: ${item.count}`)
+    .map((item) => {
+      const itemData = items.find((i) => i.id === item.itemID);
+      const itemName = itemData ? itemData.name : `Unknown Item (${item.itemID})`;
+      return `${itemName} (ID: ${item.itemID}, Count: ${item.count})`;
+    })
     .join(", ");
 }

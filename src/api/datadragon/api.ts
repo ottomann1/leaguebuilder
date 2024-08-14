@@ -1,4 +1,4 @@
-export async function getAllChampions() {
+export async function getAllChampions(): Promise<DDChampion[] | null> {
   try {
     // Fetch champion data from Data Dragon
     const response = await fetch(
@@ -9,17 +9,18 @@ export async function getAllChampions() {
     const data = await response.json();
 
     // Extract champion data from the response
-    const champions: DDChampion[] = data.data;
+    const champions: DDChampion[] = Object.values(data.data);
 
     // Return the champions data
-    return champions;
+    return Object.values(champions);
   } catch (error) {
-    console.error("Error fetching champions from data dragon:", error);
-    return null;
+    console.error("Error fetching champions from Data Dragon:", error);
+    return null; // Return null on error
   }
 }
 
-export async function getAllItems() {
+
+export async function getAllItems(): Promise<DDItem[] | null> {
   try {
     // Fetch item data from Data Dragon
     const response = await fetch(
@@ -28,9 +29,12 @@ export async function getAllItems() {
 
     // Convert response to JSON
     const data = await response.json();
-
-    // Extract item data from the response
-    const items: DDItem[] = data.data;
+    const itemsData: DDItem[] = data.data;
+    // Transform the data into an array of items with the id included
+    const items: DDItem[] = Object.entries(itemsData).map(([id, item]) => ({
+      id: parseInt(id), // Convert the string ID to a number
+      ...item, // Spread the rest of the item properties
+    }));
 
     // Return the items data
     return items;
@@ -39,3 +43,4 @@ export async function getAllItems() {
     return null;
   }
 }
+
