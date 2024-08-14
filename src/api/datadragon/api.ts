@@ -30,7 +30,7 @@ export async function getAllItems() {
     const data = await response.json();
 
     // Extract item data from the response
-    const items: DDItem = data.data;
+    const items: DDItem[] = data.data;
 
     // Return the items data
     return items;

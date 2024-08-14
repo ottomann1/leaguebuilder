@@ -2,7 +2,6 @@ import { getActivePlayerData, getAllGameData, getEventData, getPlayerListData } 
 import { getSummoner } from "@/api/leagueconnect/api";
 import { redirect } from "next/navigation";
 import { calculateTotalGoldSpent, displayPlayerItems } from "@/utils/utils";
-import { MatchData, ActivePlayer, Player, GameEvent } from "@/types";
 
 export default async function ingame() {
   const summoner = await getSummoner();
