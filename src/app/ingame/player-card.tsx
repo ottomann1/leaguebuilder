@@ -4,6 +4,7 @@ import React from "react";
 import { useStaticData } from "@/context/StaticDataContext";
 import Image from "next/image";
 import { calculateTotalGoldSpent, estimateCurrentGold, estimateTotalGold, formatTime } from "@/utils/utils";
+import { insertMissingChampionsAndItems } from "@/server/db/dumper";
 
 interface AllPlayersProps {
   playerList: Player[];
@@ -24,7 +25,6 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
     );
   }
 
-  console.log(playerList)
 
   const team1 = playerList.filter((player) => player.team === "ORDER");
   const team2 = playerList.filter((player) => player.team === "CHAOS");
@@ -64,7 +64,7 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
           {player.scores.kills}/{player.scores.deaths}/{player.scores.assists}
         </td>
         <td>{player.scores.creepScore}</td>
-        <td p-0>
+        <td>
           <div className="stats shadow">
             <div className="stat">
               <div className="stat-title text-xs">Item Value</div>

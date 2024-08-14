@@ -1,7 +1,15 @@
+import { getAllChampions, getAllItems } from "@/api/datadragon/api";
 import { getCurrentState, getSummoner } from "@/api/leagueconnect/api";
+import { insertMissingChampionsAndItems } from "@/server/db/dumper";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
+  const champions = await getAllChampions()
+  const items = await getAllItems()
+  if(!champions||!items){
+    throw new Error("toss yo ass home")
+  }
+  insertMissingChampionsAndItems(champions, items)
   const summoner = await getSummoner();
 
   if (summoner) {

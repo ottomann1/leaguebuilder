@@ -12,7 +12,7 @@ type DragonData = {
 
 
 export default async function ingame(){
-  // Use Promise.all to fetch data concurrently
+
   const [gameData, playerData, playerList, eventData, summoner] = await Promise.all([
     getAllGameData(),
     getActivePlayerData(),
@@ -23,11 +23,10 @@ export default async function ingame(){
   if (!summoner) {
     redirect("/");
   }
-  console.log(eventData)
 
 
   return (
-    <main className="p-4 mx-auto flex flex-col drop-shadow-2xl">
+    <main className="mx-auto flex flex-col drop-shadow-2xl">
       <h1>You are now ingame, {summoner.gameName}</h1>
       <section className="mb-4">
         <h2 className="text-xl font-semibold">Gamemode: {gameData.gameData.gameMode} {gameData.gameData.mapName}</h2>

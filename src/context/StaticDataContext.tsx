@@ -30,6 +30,7 @@ export const StaticDataProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setChampions(fetchedChampions || []);
         setItems(fetchedItems || []);
         console.log("data fetched");
+
       } catch (error) {
         console.error("Error fetching data:", error);
         setChampions([]);
