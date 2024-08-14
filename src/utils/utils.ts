@@ -70,3 +70,20 @@ export function estimateCurrentGold(player: Player, gameTime: number, eventData:
 
   return currentGoldEstimate;
 }
+
+export function formatPosition(position: string): string {
+  switch (position.toUpperCase()) {
+    case "UTILITY":
+      return "support";
+    case "BOTTOM":
+      return "adc";
+    case "MIDDLE":
+      return "mid";
+    case "JUNGLE":
+      return "jungle";
+    case "TOP":
+      return "top";
+    default:
+      return position.toLowerCase();
+  }
+}

@@ -19,8 +19,9 @@ export const viableItems = pgTable(
     itemId: integer("item_id")
       .notNull()
       .references(() => items.id, { onDelete: "cascade" }),
+    position: text("position").notNull(), // Position (e.g., 'top', 'jungle', 'mid', 'support', 'adc')
   },
   (t) => ({
-    pk: primaryKey(t.championId, t.itemId),
+    pk: primaryKey(t.championId, t.itemId, t.position), // Ensure uniqueness across championId, itemId, and position
   })
 );

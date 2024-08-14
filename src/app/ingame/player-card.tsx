@@ -24,6 +24,7 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
       </div>
     );
   }
+  console.log(playerList)
 
 
   const team1 = playerList.filter((player) => player.team === "ORDER");

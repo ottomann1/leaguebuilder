@@ -6,6 +6,7 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "target": "ES2015",
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -21,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/providers.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/providers.js", "src/utils/scraper.ts"],
   "exclude": ["node_modules"]
 }

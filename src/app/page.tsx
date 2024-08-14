@@ -1,15 +1,19 @@
 import { getAllChampions, getAllItems } from "@/api/datadragon/api";
 import { getCurrentState, getSummoner } from "@/api/leagueconnect/api";
-import { insertMissingChampionsAndItems } from "@/server/db/dumper";
+import { insertMissingChampionsAndItems, insertViableItemsForChampion } from "@/server/db/dumper";
 import { redirect } from "next/navigation";
+import {scrapeOPGGItems} from "@/utils/scraper"
 
 export default async function Home() {
-  const champions = await getAllChampions()
-  const items = await getAllItems()
-  if(!champions||!items){
-    throw new Error("toss yo ass home")
-  }
-  insertMissingChampionsAndItems(champions, items)
+  // const champions = await getAllChampions()
+  // const items = await getAllItems()
+  // if(!champions||!items){
+  //   throw new Error("toss yo ass home")
+  // }
+  // insertMissingChampionsAndItems(champions, items)
+  const scrap = await scrapeOPGGItems("aatrox", "top")
+  console.log(scrap)
+  insertViableItemsForChampion("Aatrox", "top", scrap)
   const summoner = await getSummoner();
 
   if (summoner) {
@@ -35,3 +39,5 @@ export default async function Home() {
     </main>
   );
 }
+
+
