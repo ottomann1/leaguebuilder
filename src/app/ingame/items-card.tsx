@@ -5,7 +5,6 @@ import { useStaticData } from "@/context/StaticDataContext";
 import Image from 'next/image';
 import { scrapeOPGGItems } from '@/utils/scraper';
 import { formatPosition } from '@/utils/utils';
-import { getSummoner } from '@/api/leagueconnect/api';
 
 interface ItemsCardProps {
   gameTime: number;
@@ -46,8 +45,48 @@ export function ItemsCard({ gameTime, eventData, playerList, playerData }: Items
     );
   }
 
+  // Function to determine if an item is a jungle item
+  const isJungleItem = (item:DDItem) => {
+    // Adjust this logic based on how jungle items are identified in your data
+    return item.tags.includes("Jungle") || ["3706", "3715", "1400", "1401", "1402", "1408", "1412", "1413", "1414", "1416", "1419"].includes(item.id.toString());
+  };
+
+  function filterAndSortItems() {
+    const inventoryItemNames = currentPlayer!.items.map(item => {
+      const itemData = items.find(staticItem => staticItem.id === item.itemID);
+      return itemData?.name || '';
+    });
+
+    const filteredItems = viableItems
+      .filter(itemName => {
+        const itemData = items.find(item => item.name === itemName);
+        if (!itemData) return false;
+
+        // Exclude jungle items
+        if (isJungleItem(itemData)) {
+          return false;
+        }
+
+        // If any boot is purchased, remove all boots from the viable items list
+        if (itemData.tags.includes("Boots") && inventoryItemNames.some(name => items.find(item => item.name === name)?.tags.includes("Boots"))) {
+          return false;
+        }
+
+        // Remove items already in the player's inventory
+        return !inventoryItemNames.includes(itemName);
+      })
+      .sort((a, b) => {
+        const itemA = items.find(item => item.name === a);
+        const itemB = items.find(item => item.name === b);
+        return (itemA?.gold.total || 0) - (itemB?.gold.total || 0);
+      });
+
+    return filteredItems;
+  }
+
   function renderItems() {
-    return viableItems.map((itemName) => {
+    const sortedItems = filterAndSortItems();
+    return sortedItems.map((itemName) => {
       const itemData = items.find((item) => item.name === itemName);
       if (!itemData) return null;
 
@@ -75,17 +114,14 @@ export function ItemsCard({ gameTime, eventData, playerList, playerData }: Items
   }
 
   return (
-    <div className="card shadow-lg compact bg-base-100 p-6 w-full">
-      <h3 className="text-lg font-semibold mb-4">
-        Viable Items for {championName} {position}
-      </h3>
-      <div className="flex justify-between items-center mb-6">
-
+    <div className="overflow-y-auto card-body bg-base-100 p-6 h-[45vh] w-full">
+      <div className='flex w-full justify-between'>
         <div className="text-lg font-semibold">
-          Current Game Time: {new Date(gameTime * 1000).toISOString().substr(11, 8)}
+          Viable Items for {championName} {position}
         </div>
       </div>
-      <div className="flex flex-wrap">
+  
+      <div className="flex flex-wrap mt-4">
         {renderItems()}
       </div>
     </div>

@@ -1,10 +1,9 @@
 import { getActivePlayerData, getAllGameData, getEventData, getPlayerListData } from "@/api/gameclient/api";
-import { getSummoner } from "@/api/leagueconnect/api";
+import { getCurrentState, getSummoner } from "@/api/leagueconnect/api";
 import { redirect } from "next/navigation";
 import PlayerCard from "./player-card";
 import { formatPosition, formatTime } from "@/utils/utils";
 import Timeline from "./timeline";
-import ItemsCardWrapper from "./item-card-wrapper";
 import ItemsCard from "./items-card";
 
 export default async function ingame() {
@@ -14,12 +13,7 @@ export default async function ingame() {
     getActivePlayerData(),
     getPlayerListData(),
     getEventData(),
-
   ]);
-
-  // if (!summoner) {
-  //   redirect("/");
-  // }
 
   return (
     <main className="mx-auto flex flex-col drop-shadow-2xl">

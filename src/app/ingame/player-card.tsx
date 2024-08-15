@@ -29,21 +29,27 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
     return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, []);
 
-  if (!champions || !items) {
+  if (!champions) {
     return (
       <div className="flex justify-center items-center h-64">
         <span className="loading loading-spinner loading-lg"></span>
       </div>
     );
   }
-  console.log(playerList)
+  if (!items) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
 
 
   const team1 = playerList.filter((player) => player.team === "ORDER");
   const team2 = playerList.filter((player) => player.team === "CHAOS");
   const renderPlayerRow = (player: Player) => {
-    const champion = champions?.find((champ) => champ.id === player.championName);
-
+    console.log(player)
+    const champion = champions?.find((champ) => champ.name === player.championName);
     return (
       <tr className="hover" key={player.summonerName}>
         <td>
@@ -79,19 +85,19 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
         <td>{player.scores.creepScore}</td>
         <td>
           <div className="stats shadow">
-            <div className="stat">
+            <div className="stat pl-3 pr-2">
               <div className="stat-title text-xs">Item Value</div>
               <div className="stat-value text-xs">
                 {calculateTotalGoldSpent(player, items)}
               </div>
             </div>
-            <div className="stat">
+            <div className="stat pl-2 pr-2">
               <div className="stat-title text-xs">Total Gold</div>
               <div className="stat-value text-xs">
                 {estimateTotalGold(player, gameTime, eventData)}
               </div>
             </div>
-            <div className="stat">
+            <div className="stat pl-2 pr-3">
               <div className="stat-title text-xs">Current Gold</div>
               <div className="stat-value text-xs">
                 {estimateCurrentGold(player, gameTime, eventData, items)}
@@ -107,11 +113,10 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
                 itemData && (
                   <div
                     key={item.itemID}
-                    className="tooltip"
-                    data-tip={`${itemData.name} - ${itemData.plaintext}. Price: ${itemData.gold.total} stats: ${JSON.stringify(
-                      itemData.stats
-                    )}`}
-
+                    className="tooltip tooltip-left"
+                    data-tip={`${itemData.name} - ${itemData.plaintext}. Price: ${itemData.gold.total} stats: WIP
+                    `}
+                    // ${JSON.stringify(itemData.stats)} TODO ADD THIS TO STATS BUT ALSO CREATE A FUNCTION TO FORMAT THE WEIRD STAT NAMES
                   >
                     <Image
                       src={`https://ddragon.leagueoflegends.com/cdn/14.16.1/img/item/${itemData.image.full}`}
@@ -131,15 +136,16 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
   };
 
   return (
-    <div className="card shadow-lg compact bg-base-100">
-      <button className="btn" onClick={runRevalidate}>revalidate</button>
-      <div className="card-body">
-        <h2 className="card-title text-center">Scoreboard</h2>
+      <div className="card-body pt-2 h-[55vh] bg-base-100">
+        <div className="flex flex-row">
+        <h2 className="card-title text-center pr-1">Scoreboard{" "}</h2>
+              <div className="text-lg font-semibold">{" "} - Current Game Time: {formatTime(gameTime)}
+        </div>
 
+        </div>
         <div className="flex justify-between">
           {/* Team 1 Table */}
           <div className="w-full">
-            <h3 className="text-center">Team 1</h3>
             <div className="overflow-x-visible">
               <table className="table table-zebra w-full">
                 <thead>
@@ -148,7 +154,7 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
                     <th>Level</th>
                     <th>K/D/A</th>
                     <th>CS</th>
-                    <th>Gold</th>
+                    <th>Gold (estimated)</th>
                     <th>Items</th>
                   </tr>
                 </thead>
@@ -159,7 +165,6 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
 
           {/* Team 2 Table */}
           <div className="w-full">
-            <h3 className="text-center">Team 2</h3>
             <div className="overflow-x-visible">
               <table className="table table-zebra w-full">
                 <thead>
@@ -178,7 +183,6 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

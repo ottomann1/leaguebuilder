@@ -1,3 +1,4 @@
+import { redirectChamp, redirectHome, redirectIngame } from "@/actions/actions";
 import { createWebSocketConnection } from "league-connect";
 
 export async function startWebSocket() {
@@ -23,12 +24,15 @@ export async function startWebSocket() {
 
         const event = JSON.parse(rawData);
 
-        console.log(event);
+        // console.log(event[2].uri)
 
-        if (event.uri === "/lol-live-client-data/v1/all-gamedata") {
-          handleGameData(event.data);
-        } else if (event.uri === "/lol-gameflow/v1/gameflow-phase") {
-          handleGameState(event.data);
+
+        if (event[2].uri === "/lol-gameflow/v1/session") {
+          handleGameState(event[2].data.phase);
+        }
+        if(event[2].uri === '/lol-champ-select/v1/session'){
+          console.log("lolchampselecctseesiobn")
+          redirectChamp()
         }
       } catch (error) {
         console.error("Error parsing WebSocket message:", error);
@@ -60,10 +64,17 @@ function handleGameState(gameState: string) {
 
   if (gameState === "InProgress") {
     console.log("In-game");
+    redirectIngame()
   }
   if (gameState === "ChampSelect") {
     console.log("Champ Select");
-  } else {
+    redirectChamp()
+  } 
+  if (gameState === "None"){
+    console.log("None")
+    redirectHome()
+  }
+  else {
     console.log("Game State:", gameState);
   }
 }
@@ -71,7 +82,7 @@ function handleGameState(gameState: string) {
 function calculateItemRecommendations(gameData: any) {
   const playerData = gameData.activePlayer;
   const teamData = gameData.allPlayers.filter(
-    (player) => player.team === playerData.team,
+    (player:Player) => player.team === playerData.team,
   );
 
   return {

@@ -34,6 +34,7 @@ export function estimateTotalGold(player: Player, gameTime: number, eventData: G
   let killGold = 0;
   let assistGold = 0;
   let objectiveGold = 0;
+  let startingGold = 500;
 
   // Loop through event data to calculate gold from kills, assists, and objectives
   eventData.forEach(event => {
@@ -54,7 +55,7 @@ export function estimateTotalGold(player: Player, gameTime: number, eventData: G
   });
 
   // Total gold earned
-  const totalGoldEarned = baseGold + killGold + assistGold + objectiveGold;
+  const totalGoldEarned = baseGold + killGold + assistGold + objectiveGold + startingGold;
   return Math.floor(totalGoldEarned)
 }
 
