@@ -1,3 +1,5 @@
+"use server"
+import { insertViableItemsForChampion } from '@/server/db/dumper';
 import { load } from 'cheerio';
 
 export async function scrapeOPGGItems(xchampionName:string, position:string):Promise<string[]> {
@@ -18,8 +20,9 @@ export async function scrapeOPGGItems(xchampionName:string, position:string):Pro
         items.push(itemName);
       }
     });
-
-    return items;
+    const uniqueViableItems = Array.from(new Set(items));
+    insertViableItemsForChampion(xchampionName, position, uniqueViableItems)
+    return uniqueViableItems;
   } catch (error) {
     console.error('Error scraping OP.GG:', error);
     return [];

@@ -1,6 +1,7 @@
 import https from "https";
 
 function getGameData(endpoint: string): Promise<any> {
+  console.log(endpoint, " endpoint loaded")
   return new Promise((resolve, reject) => {
     const options = {
       hostname: "127.0.0.1",

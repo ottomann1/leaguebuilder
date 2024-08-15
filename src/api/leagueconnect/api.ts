@@ -24,6 +24,8 @@ export async function getSummoner(): Promise<Summoner | null> {
       );
 
       const summoner: Summoner = await response.json();
+      console.log("getsummoner loaded");
+
       return summoner;
     } finally {
       session.close();
@@ -66,6 +68,7 @@ export async function getCurrentState(): Promise<string | null> {
       );
 
       const gameState: string = await response.json();
+      console.log("currentstate loaded");
 
       return gameState;
     } finally {
@@ -98,6 +101,8 @@ export async function getMatchData(): Promise<any> {
       );
 
       const playerData = await response.json();
+      console.log("matchdata loaded");
+
       return playerData;
     } finally {
       session.close();

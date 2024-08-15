@@ -2,7 +2,8 @@ export async function getAllChampions(): Promise<DDChampion[] | null> {
   try {
     // Fetch champion data from Data Dragon
     const response = await fetch(
-      "https://ddragon.leagueoflegends.com/cdn/14.16.1/data/en_US/champion.json",
+      "https://ddragon.leagueoflegends.com/cdn/14.16.1/data/en_US/champion.json", 
+      // { cache: 'force-cache' }
     );
 
     // Convert response to JSON
@@ -12,6 +13,8 @@ export async function getAllChampions(): Promise<DDChampion[] | null> {
     const champions: DDChampion[] = Object.values(data.data);
 
     // Return the champions data
+    console.log("getAllChampions loaded");
+    
     return Object.values(champions);
   } catch (error) {
     console.error("Error fetching champions from Data Dragon:", error);
@@ -25,8 +28,8 @@ export async function getAllItems(): Promise<DDItem[] | null> {
     // Fetch item data from Data Dragon
     const response = await fetch(
       "https://ddragon.leagueoflegends.com/cdn/14.16.1/data/en_US/item.json",
+      //  { cache: 'force-cache' }
     );
-
     // Convert response to JSON
     const data = await response.json();
     const itemsData: DDItem[] = data.data;
@@ -35,7 +38,7 @@ export async function getAllItems(): Promise<DDItem[] | null> {
       id: parseInt(id), // Convert the string ID to a number
       ...item, // Spread the rest of the item properties
     })); 
-    console.log(items)
+    console.log("getAllItems loaded");
 
     // Return the items data
     return items;

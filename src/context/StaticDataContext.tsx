@@ -21,6 +21,7 @@ export const useStaticData = () => useContext(StaticDataContext);
 export const StaticDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [champions, setChampions] = useState<DDChampion[]>([]);
   const [items, setItems] = useState<DDItem[]>([]);
+  console.log("provider loaded")
 
   useEffect(() => {
     async function fetchData() {

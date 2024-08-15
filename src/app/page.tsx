@@ -11,13 +11,11 @@ export default async function Home() {
   //   throw new Error("toss yo ass home")
   // }
   // insertMissingChampionsAndItems(champions, items)
-  const scrap = await scrapeOPGGItems("aatrox", "top")
-  console.log(scrap)
-  insertViableItemsForChampion("Aatrox", "top", scrap)
   const summoner = await getSummoner();
 
   if (summoner) {
     const currentState = await getCurrentState();
+    console.log(currentState)
     if (!currentState) {
       throw new Error("this is impossible");
     }

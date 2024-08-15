@@ -1,10 +1,10 @@
 "use client"
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useStaticData } from "@/context/StaticDataContext";
 import Image from "next/image";
 import { calculateTotalGoldSpent, estimateCurrentGold, estimateTotalGold, formatTime } from "@/utils/utils";
-import { insertMissingChampionsAndItems } from "@/server/db/dumper";
+import { revalidate } from "@/actions/actions";
 
 interface AllPlayersProps {
   playerList: Player[];
@@ -12,10 +12,22 @@ interface AllPlayersProps {
   gameTime:number
 }
 
+async function runRevalidate(){
+  await revalidate()
+}
+
 export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps) {
   const staticData = useStaticData();
   const champions = staticData.champions;
   const items = staticData.items;
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      await runRevalidate();
+    }, 1000); // Refresh every second
+
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, []);
 
   if (!champions || !items) {
     return (
@@ -120,6 +132,7 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
 
   return (
     <div className="card shadow-lg compact bg-base-100">
+      <button className="btn" onClick={runRevalidate}>revalidate</button>
       <div className="card-body">
         <h2 className="card-title text-center">Scoreboard</h2>
 

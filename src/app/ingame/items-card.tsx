@@ -1,25 +1,42 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStaticData } from "@/context/StaticDataContext";
 import Image from 'next/image';
+import { scrapeOPGGItems } from '@/utils/scraper';
+import { formatPosition } from '@/utils/utils';
+import { getSummoner } from '@/api/leagueconnect/api';
 
 interface ItemsCardProps {
-  championName: string;
-  summonerName: string;
-  position: string;
   gameTime: number;
   eventData: GameEvent[];
-  currentGold: number;
-  viableItems: string[];
+  playerList: Player[];
+  playerData: ActivePlayer;
 }
 
-export function ItemsCard({ championName, summonerName, position, gameTime, eventData, currentGold, viableItems }: ItemsCardProps) {
+export function ItemsCard({ gameTime, eventData, playerList, playerData }: ItemsCardProps) {
   const staticData = useStaticData();
   const items = staticData.items;
+  const [viableItems, setViableItems] = useState<string[]>([]);
 
-  // Remove duplicates from viableItems
-  const uniqueViableItems = Array.from(new Set(viableItems));
+  const currentPlayer = playerList.find(player => player.summonerName === playerData.summonerName);
+
+  if (!currentPlayer) {
+    throw new Error("Current player not found in player list.");
+  }
+
+  // Get the champion name and formatted position
+  const championName = currentPlayer.championName;
+  const position = formatPosition(currentPlayer.position);
+  const currentGold = playerData.currentGold;
+
+  useEffect(() => {
+    async function fetchItems() {
+      const items = await scrapeOPGGItems(championName, position);
+      setViableItems(items);
+    }
+    fetchItems();
+  }, [championName, position]);
 
   if (!items) {
     return (
@@ -30,7 +47,7 @@ export function ItemsCard({ championName, summonerName, position, gameTime, even
   }
 
   function renderItems() {
-    return uniqueViableItems.map((itemName) => {
+    return viableItems.map((itemName) => {
       const itemData = items.find((item) => item.name === itemName);
       if (!itemData) return null;
 
@@ -63,9 +80,7 @@ export function ItemsCard({ championName, summonerName, position, gameTime, even
         Viable Items for {championName} {position}
       </h3>
       <div className="flex justify-between items-center mb-6">
-        <div className="text-lg font-semibold">
-          You are now ingame, {championName}
-        </div>
+
         <div className="text-lg font-semibold">
           Current Game Time: {new Date(gameTime * 1000).toISOString().substr(11, 8)}
         </div>
