@@ -48,11 +48,10 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
   const team1 = playerList.filter((player) => player.team === "ORDER");
   const team2 = playerList.filter((player) => player.team === "CHAOS");
   const renderPlayerRow = (player: Player) => {
-    console.log(player)
     const champion = champions?.find((champ) => champ.name === player.championName);
     return (
-      <tr className="hover" key={player.summonerName}>
-        <td>
+      <tr className="hover h-[11vh]" key={player.summonerName}>
+        <td className="p-0">
           {champion && (
             <div className="flex items-center">
               <div className="avatar">
@@ -78,12 +77,12 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
             </div>
           )}
         </td>
-        <td>{player.level}</td>
-        <td>
+        <td className="p-0 text-center ">{player.level}</td>
+        <td className="p-0 text-center">
           {player.scores.kills}/{player.scores.deaths}/{player.scores.assists}
         </td>
-        <td>{player.scores.creepScore}</td>
-        <td>
+        <td className="p-0 text-center">{player.scores.creepScore}</td>
+        <td className="p-0">
           <div className="stats shadow">
             <div className="stat pl-3 pr-2">
               <div className="stat-title text-xs">Item Value</div>
@@ -91,7 +90,7 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
                 {calculateTotalGoldSpent(player, items)}
               </div>
             </div>
-            <div className="stat pl-2 pr-2">
+            <div className="stat px-2">
               <div className="stat-title text-xs">Total Gold</div>
               <div className="stat-value text-xs">
                 {estimateTotalGold(player, gameTime, eventData)}
@@ -105,8 +104,8 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
             </div>
           </div>
         </td>
-        <td className="p-0 pr-4">
-          <div className="flex gap-2">
+        <td className="p-0 pr-1">
+          <div className="flex gap-1">
             {player.items.map((item) => {
               const itemData = items.find((i) => i.id === item.itemID);
               return (
@@ -136,26 +135,25 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
   };
 
   return (
-      <div className="card-body pt-2 h-[55vh] bg-base-100">
+      <div className="card-body p-0 pt-2 h-[55vh] bg-base-100">
         <div className="flex flex-row">
-        <h2 className="card-title text-center pr-1">Scoreboard{" "}</h2>
+        <h2 className="card-title text-center pl-1 pr-1">Scoreboard{" "}</h2>
               <div className="text-lg font-semibold">{" "} - Current Game Time: {formatTime(gameTime)}
         </div>
 
         </div>
         <div className="flex justify-between">
-          {/* Team 1 Table */}
           <div className="w-full">
             <div className="overflow-x-visible">
               <table className="table table-zebra w-full">
                 <thead>
                   <tr className="text-center">
-                    <th>Champion</th>
-                    <th>Level</th>
-                    <th>K/D/A</th>
-                    <th>CS</th>
-                    <th>Gold (estimated)</th>
-                    <th>Items</th>
+                    <th className="py-0">Champion</th>
+                    <th className="py-0">Level</th>
+                    <th className="py-0">K/D/A</th>
+                    <th className="py-0">CS</th>
+                    <th className="py-0">Gold (estimated)</th>
+                    <th className="py-0">Items</th>
                   </tr>
                 </thead>
                 <tbody>{team1.map(renderPlayerRow)}</tbody>
@@ -169,12 +167,12 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
               <table className="table table-zebra w-full">
                 <thead>
                 <tr className="text-center">
-                    <th>Champion</th>
-                    <th>Level</th>
-                    <th>K/D/A</th>
-                    <th>CS</th>
-                    <th>Gold</th>
-                    <th>Items</th>
+                    <th className="py-0">Champion</th>
+                    <th className="py-0">Level</th>
+                    <th className="py-0">K/D/A</th>
+                    <th className="py-0">CS</th>
+                    <th className="py-0">Gold</th>
+                    <th className="py-0">Items</th>
                   </tr>
                 </thead>
                 <tbody>{team2.map(renderPlayerRow)}</tbody>
