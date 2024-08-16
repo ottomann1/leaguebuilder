@@ -1,8 +1,5 @@
 import { getActivePlayerData, getAllGameData, getEventData, getPlayerListData } from "@/api/gameclient/api";
-import { getCurrentState, getSummoner } from "@/api/leagueconnect/api";
-import { redirect } from "next/navigation";
 import PlayerCard from "./player-card";
-import { formatPosition, formatTime } from "@/utils/utils";
 import Timeline from "./timeline";
 import ItemsCard from "./items-card";
 

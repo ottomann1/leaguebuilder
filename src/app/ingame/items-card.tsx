@@ -44,6 +44,7 @@ export function ItemsCard({ gameTime, eventData, playerList, playerData }: Items
       </div>
     );
   }
+  console.log(items)
 
   // Function to determine if an item is a jungle item
   const isJungleItem = (item:DDItem) => {
@@ -94,6 +95,7 @@ export function ItemsCard({ gameTime, eventData, playerList, playerData }: Items
 
       return (
         <div key={itemData.id} className="flex flex-col items-center py-2 pr-4">
+          
           <Image
             src={`https://ddragon.leagueoflegends.com/cdn/14.16.1/img/item/${itemData.image.full}`}
             alt={itemData.name}
@@ -114,10 +116,10 @@ export function ItemsCard({ gameTime, eventData, playerList, playerData }: Items
   }
 
   return (
-    <div className="overflow-y-auto card-body bg-base-100 p-4 h-[35vh] w-full">
+    <div className="overflow-y-auto card-body bg-base-100 p-0 pl-4 pt-4 h-[42vh] w-full">
       <div className='flex w-full justify-between'>
         <div className="text-lg font-semibold">
-          Viable Items for {championName} {position}
+          Viable Items for {championName + " "} {position + " "} <span className='pl-6 text-yellow-500'>Current Gold: {Math.floor(currentGold)}</span>
         </div>
       </div>
 

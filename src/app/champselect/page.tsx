@@ -16,7 +16,7 @@ export default async function ChampSelect() {
   // }
 
   return (
-    <main className="mx-auto flex flex-col drop-shadow-2xl p-6">
+    <main className="mx-auto flex flex-col bg-base-100 p-6">
       <h1>THIS PAGE IS WIP</h1>
       {/* <h1 className="text-3xl font-bold mb-6">Champion Select</h1>
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">

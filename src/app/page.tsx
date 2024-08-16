@@ -1,6 +1,8 @@
 import { getAllChampions, getAllItems } from "@/api/datadragon/api";
-import { getSummoner } from "@/api/leagueconnect/api";
+import { getActivePlayerData } from "@/api/gameclient/api";
+import { getCurrentState, getSummoner } from "@/api/leagueconnect/api";
 import { insertMissingChampionsAndItems } from "@/server/db/dumper";
+import { redirect } from "next/navigation";
 
 
 
@@ -13,6 +15,15 @@ export default async function Home() {
   }
 
   const summoner = await getSummoner();
+
+  if(summoner){
+    console.log(summoner)
+    const gameState = await getCurrentState()
+    console.log(gameState)
+    if(gameState==="InProgress"){
+      redirect("/ingame")
+    }
+  }
 
 
 

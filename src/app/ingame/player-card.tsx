@@ -50,7 +50,7 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
   const renderPlayerRow = (player: Player) => {
     const champion = champions?.find((champ) => champ.name === player.championName);
     return (
-      <tr className="hover h-[11vh]" key={player.summonerName}>
+      <tr className="hover h-[10vh]" key={player.summonerName}>
         <td className="p-0">
           {champion && (
             <div className="flex items-center">
@@ -113,7 +113,7 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
                   <div
                     key={item.itemID}
                     className="tooltip tooltip-left"
-                    data-tip={`${itemData.name} - ${itemData.plaintext}. Price: ${itemData.gold.total} stats: WIP
+                    data-tip={`${itemData.name} - ${itemData.plaintext}. Price: ${itemData.gold.total}
                     `}
                     // ${JSON.stringify(itemData.stats)} TODO ADD THIS TO STATS BUT ALSO CREATE A FUNCTION TO FORMAT THE WEIRD STAT NAMES
                   >
@@ -135,8 +135,8 @@ export function PlayerCard({ playerList, eventData, gameTime }: AllPlayersProps)
   };
 
   return (
-      <div className="card-body p-0 pt-2 h-[55vh] bg-base-100">
-        <div className="flex flex-row">
+      <div className="card-body p-0 pt-2 h-full bg-base-100">
+        <div className="flex flex-row p-2">
         <h2 className="card-title text-center pl-1 pr-1">Scoreboard{" "}</h2>
               <div className="text-lg font-semibold">{" "} - Current Game Time: {formatTime(gameTime)}
         </div>
